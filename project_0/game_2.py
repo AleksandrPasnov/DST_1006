@@ -1,8 +1,9 @@
+import random
 import numpy as np
 
 # игра угадай число ПК все днлает сам
 
-def random_predict(number:int=50) -> int:
+def random_predict(number: int=1) -> int:
     """Рандомно угадываем число
 
     Args:
@@ -11,16 +12,26 @@ def random_predict(number:int=50) -> int:
     Returns:
         int: Число попыток
     """
-    count = 0
+    count = 1
+    x, y = 1, 100
+   
+    predict_number = np.random.randint(1, 101)
     
-    while True:
-        count += 1
-        predict_number = np.random.randint(1, 101)
-        if number == predict_number:
-            break
-    return (count)
-
-#print(f"Количество попыток: {random_predict(7)}")
+    if number == predict_number:
+       return (count)
+    else:
+        while number != predict_number:
+            if number > predict_number:
+                y = number
+                number = random.randint(x, y)
+                count += 1
+            elif number < predict_number:
+                y = predict_number
+                number = random.randint(x, y)
+                count += 1
+        return (count)
+        
+print(f"Количество попыток: {random_predict()}")
 
 def score_game(random_predict) -> int:
     """За какое коичество попыток в среднем из 1000 подходов угадывает наш алгоритм
