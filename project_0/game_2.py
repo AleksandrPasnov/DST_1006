@@ -3,7 +3,7 @@ import numpy as np
 
 # игра угадай число ПК все днлает сам
 
-def random_predict(number: int=1) -> int:
+def random_predict(number: int=50) -> int:
     """Рандомно угадываем число
 
     Args:
@@ -12,24 +12,20 @@ def random_predict(number: int=1) -> int:
     Returns:
         int: Число попыток
     """
-    count = 1
+    count = 0
     x, y = 1, 100
-   
     predict_number = np.random.randint(1, 101)
-    
-    if number == predict_number:
-       return (count)
-    else:
-        while number != predict_number:
-            if number > predict_number:
-                y = number
-                number = random.randint(x, y)
-                count += 1
-            elif number < predict_number:
-                y = predict_number
-                number = random.randint(x, y)
-                count += 1
-        return (count)
+    while True:
+        count += 1
+        if number == predict_number:
+            break
+        elif number > predict_number:
+            y = number
+            number = random.randint(x, y)
+        elif number < predict_number:
+            x = number
+            number = random.randint(x, y)
+    return (count)
         
 print(f"Количество попыток: {random_predict()}")
 
