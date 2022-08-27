@@ -2,11 +2,11 @@ import numpy as np
 
 # игра угадай число ПК все днлает сам
 
-def random_predict(number:int=1) -> int:
+def random_predict(number:int=50) -> int:
     """Рандомно угадываем число
 
     Args:
-        number (int, optional): Загаданное число. Defaults to 1.
+        number (int, optional): Загаданное число. Defaults to 50.
 
     Returns:
         int: Число попыток
