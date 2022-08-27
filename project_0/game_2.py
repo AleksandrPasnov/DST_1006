@@ -17,12 +17,12 @@ def random_predict(number: int=50) -> int:
     predict_number = np.random.randint(1, 101)
     while True:
         count += 1
-        if number == predict_number:
+        if number == predict_number: # Если угадал "Молодец"
             break
-        elif number > predict_number:
+        elif number > predict_number: # Если загаданное число больше то смещаем диапозон поиска 
             y = number
             number = random.randint(x, y)
-        elif number < predict_number:
+        elif number < predict_number: # Если загаданное число больше то смещаем диапозон поиска 
             x = number
             number = random.randint(x, y)
     return (count)
