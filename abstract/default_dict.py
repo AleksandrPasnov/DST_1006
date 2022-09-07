@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import OrderedDict, defaultdict, OrderedDict
 
 students = [('Ivanov',1),('Smirnov',4),('Petrov',3),('Kuznetsova',1),
             ('Nikitina',2),('Markov',3),('Pavlov',2)] 
@@ -53,3 +53,14 @@ print(groups_1) # defaultdict(<class 'list'>, {1: ['Ivanov', 'Kuznetsova'], 4: [
 """В выводе есть небольшое отличие от обычного словаря: 
 печатаются не только элементы словаря, но и само название объекта defaultdict, 
 а также класс объекта, который задан по умолчанию. В данном случае это <class 'list'>. """
+
+from collections import OrderedDict
+data = [('Ivan', 19),('Mark', 25),('Andrey', 23),('Maria', 20)]
+ordered_client_ages = OrderedDict(data)
+print(ordered_client_ages)
+# По результатам 3 повторов получились вот такие результаты:
+# OrderedDict([('Ivan', 19), ('Mark', 25), ('Andrey', 23), ('Maria', 20)])
+# OrderedDict([('Ivan', 19), ('Mark', 25), ('Andrey', 23), ('Maria', 20)])
+# OrderedDict([('Ivan', 19), ('Mark', 25), ('Andrey', 23), ('Maria', 20)])
+"""Специальный словарь, который гарантирует сохранение ключей в порядке их добавления, называется OrderedDict"""
+
