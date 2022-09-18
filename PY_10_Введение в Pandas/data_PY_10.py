@@ -1,11 +1,11 @@
 import pandas as pd
 
-# countries = pd.Series(
-#     data = ['England', 'Canada', 'USA', 
-#             'Russia', 'Ukraina', 'Belarus', 'Kazahstan'],
-#     index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ'],
-#     name = 'countries'
-# )
+countries = pd.Series(
+    data = ['England', 'Canada', 'USA', 
+            'Russia', 'Ukraina', 'Belarus', 'Kazahstan'],
+    index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ'],
+    name = 'countries'
+)
 # print(countries)
 # print()
 # print(countries.loc['RU'])
@@ -17,28 +17,28 @@ import pandas as pd
 # print(countries.iloc[1:4])
 # print()
 
-# names=['chlorhexidine', 'cyntomycin', 'afobazol']
-# counts=[15, 18, 7]
+names=['chlorhexidine', 'cyntomycin', 'afobazol']
+counts=[15, 18, 7]
 
-# def create_medications(names, count):
-#     """Функция создает объект Series
-#     Args:
-#         names (_string_): название лекарств
-#         count (_int_): их количество
-#     """
-#     res = pd.Series(data=counts, index=names)
-#     return res
+def create_medications(names, count):
+    """Функция создает объект Series
+    Args:
+        names (_string_): название лекарств
+        count (_int_): их количество
+    """
+    res = pd.Series(data=counts, index=names)
+    return res
 
-# medical = create_medications(names, counts)
+medical = create_medications(names, counts)
 
-# def get_percent(medical, name):
-#     """Функция возвращает процент лекарства из списка
+def get_percent(medical, name):
+    """Функция возвращает процент лекарства из списка
 
-#     Args:
-#         medical (_Series_): _объект Series_
-#         name (_str_): _название лекарства из списка_
-#     """
-#     return (medical.loc[name]/sum(medical) * 100)
+    Args:
+        medical (_Series_): _объект Series_
+        name (_str_): _название лекарства из списка_
+    """
+    return (medical.loc[name]/sum(medical) * 100)
 
 # print(get_percent(medical, 'afobazol'))
 
@@ -52,4 +52,8 @@ coutries_df = pd.DataFrame({
                603628, 207600, 2724902]
 })
 coutries_df.index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ']
-print(coutries_df)
+# print(coutries_df)
+
+melb_data = pd.read_csv('/Users/MacBook/Desktop/Data Saintist/IDE/PY_10_Введение в Pandas/data_csv/melb_data.csv', sep=',')
+
+print(round(melb_data.loc[3521, 'Landsize'] / melb_data.loc[1690, 'Landsize']))
