@@ -1,57 +1,57 @@
 import pandas as pd
 
-# countries = pd.Series(
-#     data = ['England', 'Canada', 'USA', 
-#             'Russia', 'Ukraina', 'Belarus', 'Kazahstan'],
-#     index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ'],
-#     name = 'countries'
-# )
-# print(countries)
-# print()
-# print(countries.loc['RU'])
-# print()
-# print(countries.loc[['US', 'RU', 'UK']])
-# print()
-# print(countries.iloc[4])
-# print()
-# print(countries.iloc[1:4])
-# print()
+countries = pd.Series(
+    data = ['England', 'Canada', 'USA', 
+            'Russia', 'Ukraina', 'Belarus', 'Kazahstan'],
+    index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ'],
+    name = 'countries'
+)
+print(countries)
+print()
+print(countries.loc['RU'])
+print()
+print(countries.loc[['US', 'RU', 'UK']])
+print()
+print(countries.iloc[4])
+print()
+print(countries.iloc[1:4])
+print()
 
-# names=['chlorhexidine', 'cyntomycin', 'afobazol']
-# counts=[15, 18, 7]
+names=['chlorhexidine', 'cyntomycin', 'afobazol']
+counts=[15, 18, 7]
 
-# def create_medications(names, count):
-#     """Функция создает объект Series
-#     Args:
-#         names (_string_): название лекарств
-#         count (_int_): их количество
-#     """
-#     res = pd.Series(data=counts, index=names)
-#     return res
+def create_medications(names, count):
+    """Функция создает объект Series
+    Args:
+        names (_string_): название лекарств
+        count (_int_): их количество
+    """
+    res = pd.Series(data=counts, index=names)
+    return res
 
-# medical = create_medications(names, counts)
+medical = create_medications(names, counts)
 
-# def get_percent(medical, name):
-#     """Функция возвращает процент лекарства из списка
+def get_percent(medical, name):
+    """Функция возвращает процент лекарства из списка
 
-#     Args:
-#         medical (_Series_): _объект Series_
-#         name (_str_): _название лекарства из списка_
-#     """
-#     return (medical.loc[name]/sum(medical) * 100)
+    Args:
+        medical (_Series_): _объект Series_
+        name (_str_): _название лекарства из списка_
+    """
+    return (medical.loc[name]/sum(medical) * 100)
 
-# print(get_percent(medical, 'afobazol'))
+print(get_percent(medical, 'afobazol'))
 
-# coutries_df = pd.DataFrame({
+coutries_df = pd.DataFrame({
     
-#     'country': ['England', 'Canada', 'USA', 'Russia', 
-#                 'Ukraina', 'Belarus', 'Kazahstan'],
-#     'population': [56.29, 38.05, 322.28, 146.24, 
-#                    45.5, 9.5, 17.04],
-#     'square': [133396, 9984670, 9826630, 17125191,
-#                603628, 207600, 2724902]
-# })
-# coutries_df.index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ']
+    'country': ['England', 'Canada', 'USA', 'Russia', 
+                'Ukraina', 'Belarus', 'Kazahstan'],
+    'population': [56.29, 38.05, 322.28, 146.24, 
+                   45.5, 9.5, 17.04],
+    'square': [133396, 9984670, 9826630, 17125191,
+               603628, 207600, 2724902]
+})
+coutries_df.index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ']
 
 countries_df = pd.DataFrame(
     data= [
@@ -66,3 +66,38 @@ countries_df = pd.DataFrame(
     columns= ['country', 'population', 'square'],
     index= ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ']
 )
+
+countries_df.to_csv('')
+# print(countries_df.mean(axis=0))
+# print()
+# print(countries_df.population)
+# print()
+# print(countries_df['population'])
+# print()
+# print(countries_df.loc['RU', ['population', 'square']])
+# print(countries_df.loc[['UA', 'BY', 'KZ'],['population', 'square']])
+
+# incomes = [478, 512, 196]
+# expenses = [156, 130, 270]
+# years = [2018, 2019, 2020]
+
+# def create_companyDF(incomes, expenses, years):
+#     df= pd.DataFrame ({
+#         'Incomes': incomes,
+#         'Expenses': expenses
+#         },
+#         index= years
+#     )
+#     return df
+
+# def get_profit(df, year):
+#     if year in df.index:
+#         profit = df.loc[year, 'Incomes'] - df.loc[year, "Expenses"]
+#     else:
+#         profit = None
+#     return profit
+
+# if __name__ == '__main__':
+        
+#     scienceyou = create_companyDF(incomes, expenses, years)
+#     print(get_profit(scienceyou, 2020)) #-74
