@@ -56,4 +56,22 @@ coutries_df.index = ['UK', 'CA', 'US', 'RU', 'UA', 'BY', 'KZ']
 
 melb_data = pd.read_csv('/Users/MacBook/Desktop/Data Saintist/IDE/PY_10_Введение в Pandas/data_csv/melb_data.csv', sep=',')
 
-print(round(melb_data.loc[3521, 'Landsize'] / melb_data.loc[1690, 'Landsize']))
+# print(round(melb_data.loc[3521, 'Landsize'] / melb_data.loc[1690, 'Landsize']))
+
+# Изменение типа данных в столбцах метод astype()
+melb_data['Car'] = melb_data["Car"].astype('int64')
+
+student_data = pd.read_csv('/Users/MacBook/Desktop/Data Saintist/IDE/PY_10_Введение в Pandas/data_csv/students_performance.csv', sep=',')   
+
+# Часто при работе с таблицей нужно быстро посмотреть на основные статистические 
+# свойства её столбцов. Для этого можно воспользоваться методом DataFrame describe().
+# print(melb_data.describe())
+
+if __name__ == "__main__":
+    a = student_data[student_data['race/ethnicity'] == 'group A']['writing score'].median()
+    b = student_data[student_data['race/ethnicity'] == 'group C']['writing score'].mean()
+    print(round(abs(a - b)))
+#     print(melb_data.shape)
+#     melb_data.info()
+#     print(melb_data.describe())
+    
