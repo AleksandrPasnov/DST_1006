@@ -1,3 +1,4 @@
+from calendar import weekday
 import pandas as pd
 
 melb_data = pd.read_csv(
@@ -124,4 +125,29 @@ count_mode_user = data[data['usertype'] == mode_usertype].shape[0]
 
 male_count = data[data['gender'] == 1].shape[0]
 female_count = data[data['gender'] == 0].shape[0]
-print(max([male_count, female_count]))
+# print(max([male_count, female_count]))
+
+data['starttime'] = pd.to_datetime(data['starttime'])
+data['stoptime'] = pd.to_datetime(data['stoptime'])
+data['trip duration'] = (data['stoptime'] - data['starttime'])
+print(data.loc[3, 'trip duration'])
+
+weekday = data['starttime'].dt.dayofweek
+data['weekend'] = weekday.apply(lambda x: 1 if x ==5 or x == 6 else 0)
+print(data['weekend'].sum())
+
+def get_time_of_day(time):
+    if 0 <= time <= 6:
+        return 'night'
+    elif 6 < time <= 12:
+        return 'morning'
+    elif 12 < time <= 18:
+        return 'day'
+    elif 18 < time <= 23:
+        return 'evening'
+    else:
+        return 'else'
+data['time_of_day'] = data['starttime'].dt.hour.apply(get_time_of_day)
+a = data[data['time_of_day'] == 'day'].shape[0]
+b = data[data['time_of_day'] == 'night'].shape[0]
+print(round(a / b))
