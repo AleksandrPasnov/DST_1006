@@ -5,7 +5,7 @@ melb_df = pd.read_csv(
 # 1
 melb_df['Date'] = pd.to_datetime(melb_df['Date'])
 quarters = melb_df['Date'].dt.quarter
-print(quarters.value_counts().iloc[1])
+
 
 # 2
 cols_to_exclude = ['Date', 'Rooms', 'Bedroom', 'Bathroom', 'Car']
@@ -13,7 +13,7 @@ max_unique_count = 150
 for col in melb_df.columns:
     if melb_df[col].nunique() < max_unique_count and col not in cols_to_exclude:
         melb_df[col] = melb_df[col].astype('category')
-print(melb_df.info())
+
 
 # 3
 # Для сортировки значений в DF по значениям одного или нескольких столбцов используйте метод sort_values()
@@ -131,6 +131,12 @@ date1 = pd.to_datetime('2017-05-01')
 date2 = pd.to_datetime('2017-09-01')
 mask = (date1 <= melb_df['Date']) & (melb_df['Date'] <= date2)
 melb_df[mask].groupby('SellerG')['Price'].sum().sort_values(ascending=True)
+
+# 16
+# Сводная таблица принимает на вход данные из отдельных столбцов и группирует их. 
+# В результате получается новая таблица, которая позволяет увидеть многомерное обобщение 
+# данных. Таким образом, благодаря сводным таблицам мы можем оценить зависимость 
+# между двумя и более признаками данных.
 
 if __name__ == '__main__':
     # 1
