@@ -138,6 +138,155 @@ melb_df[mask].groupby('SellerG')['Price'].sum().sort_values(ascending=True)
 # данных. Таким образом, благодаря сводным таблицам мы можем оценить зависимость 
 # между двумя и более признаками данных.
 
+# 17
+# На самом деле мы с вами уже строили простейшие одномерные сводные таблицы 
+# с помощью метода groupby — мы рассматривали сводную таблицу в контексте группировки 
+# по одному признаку. 
+# Например, мы уже умеем строить таблицу, 
+# которая показывает зависимость медианной цены и площади здания от числа комнат:
+
+melb_df.groupby('Rooms')[['Price', 'BuildingArea']].median()
+
+melb_df.groupby(['Rooms', 'Type'])['Price'].mean()
+
+# 18
+# Для того, чтобы финальный результат был представлен в виде сводной таблицы 
+# (первый группировочный признак по строкам, а второй — по столбцам), 
+# а не в виде Series с иерархическими индексами, 
+# к результату чаще всего применяют метод unstack(), 
+# который позволяет переопределить вложенный индекс в виде столбцов таблицы:
+
+melb_df.groupby(['Rooms', 'Type'])['Price'].mean().unstack()
+
+# 19
+# На самом деле метод groupby редко используется при двух параметрах, 
+# так как для построения сводных таблиц существует специальный 
+# и более простой метод — pivot_table().
+
+# Давайте построим ту же самую таблицу, 
+# но уже с использованием метода pivot_table. 
+# В качестве параметра values укажем столбец Price, 
+# в качестве индексов сводной таблицы возьмём Rooms, а в качестве столбцов — Type. 
+# Агрегирующую функцию оставим по умолчанию (среднее). 
+# Дополнительно заменим пропуски в таблице на значение 0. 
+# Финальный результат для наглядности вывода округлим с помощью метода round() до целых.
+
+melb_df.pivot_table(
+    values='Price',
+    index='Rooms',
+    columns='Type',
+    fill_value=0
+).round()
+
+# 20
+
+melb_df.pivot_table(
+    values='Price',
+    index='Regionname',
+    columns='Weekend',
+    aggfunc='count'
+)
+
+# 21
+
+melb_df.pivot_table(
+    values='Landsize',
+    index='Regionname',
+    columns='Type',
+    aggfunc=['median', 'mean'],
+    fill_value=0
+)
+
+# 22
+
+melb_df.pivot_table(
+    values='Price',
+    index=['Method','Type'],
+    columns='Regionname',
+    aggfunc='median',
+    fill_value=0
+)
+
+# 23 
+# Объединение DataFrame: знакомимся с новыми данными (задание рейтинг фильмов)
+
+ratings1 = pd.read_csv(
+    '/Users/MacBook/Desktop/Data Saintist/IDE/PY_12_Продвинутые методы Pandas/data_csv/ratings1.csv')
+
+ratings2 = pd.read_csv(
+    '/Users/MacBook/Desktop/Data Saintist/IDE/PY_12_Продвинутые методы Pandas/data_csv/ratings2.csv')
+
+dates = pd.read_csv(
+    '/Users/MacBook/Desktop/Data Saintist/IDE/PY_12_Продвинутые методы Pandas/data_csv/dates.csv')
+
+ratings = pd.concat([ratings1, ratings2], ignore_index=True)
+
+ratings = ratings.drop_duplicates(ignore_index=True)
+
+ratings_dates = pd.concat([ratings, dates], axis=1)
+
+# 24
+# Для объединения двух таблиц по индексам используется метод DataFrame join(). 
+# Однако данный метод можно применить и для того, 
+# чтобы объединить таблицы по ключевому столбцу (в нашем случае это movieId).
+
+movies = pd.read_csv(
+    '/Users/MacBook/Desktop/Data Saintist/IDE/PY_12_Продвинутые методы Pandas/data_csv/movies.csv')
+
+
+joined_false = ratings_dates.join(
+    movies,
+    rsuffix='_right',
+    how='left'
+)
+
+joined = ratings_dates.join(
+    movies.set_index('movieId'),
+    on='movieId',
+    how='left'
+)
+
+# 25
+# Аналогично предыдущему, метод merge() предназначен для слияния двух таблиц 
+# по ключевым столбцам или по индексам. Однако, в отличие от join(), метод merge() 
+# предлагает более гибкий способ управления объединением, 
+# благодаря чему является более популярным.
+
+merged = ratings_dates.merge(
+    movies,
+    on='movieId',
+    how='left'
+)
+
+merged2 = ratings_dates.merge(
+    movies,
+    on='movieId',
+    how='outer'
+)
+
+merge_ratings = ratings1.merge(ratings2, how='outer')
+
+# 26
+
+import re 
+def get_year_release(arg):
+    #находим все слова по шаблону "(DDDD)"
+    candidates = re.findall(r'\(\d{4}\)', arg) 
+    # проверяем число вхождений
+    if len(candidates) > 0:
+        #если число вхождений больше 0,
+	#очищаем строку от знаков "(" и ")"
+        year = candidates[0].replace('(', '')
+        year = year.replace(')', '')
+        return int(year)
+    else:
+        #если год не указан, возвращаем None
+        return None
+
+joined['year_release'] = joined['title'].apply(get_year_release)
+
+
+
 if __name__ == '__main__':
     # 1
     print(quarters.value_counts().iloc[1])
@@ -172,3 +321,27 @@ if __name__ == '__main__':
     # 15
     print(melb_df[mask].groupby('SellerG')[
           'Price'].sum().sort_values(ascending=True))
+
+    # 23
+    print(ratings)
+    print()
+    print('Число строк в таблице ratings: ', ratings.shape[0])
+    print('Число строк в таблице dates: ', dates.shape[0])
+    print(ratings.shape[0] == dates.shape[0])
+    print(ratings_dates.tail(7))
+    
+    # 24-25
+    print(joined_false)
+    
+    print(joined.head())
+    
+    # 26
+    print(joined.info())
+    mask = joined['year_release'] == 1999
+    print(joined[mask].groupby('title')['rating'].mean().sort_values())
+    mask = joined['year_release'] == 2010
+    print(joined[mask].groupby('genres')['rating'].mean().sort_values())
+    print(joined.groupby('userId')['genres'].nunique().sort_values(ascending=False))
+    print(joined.groupby('userId')['rating'].agg(
+    ['count', 'mean']
+).sort_values(['count', 'mean'], ascending=[True, False]))
